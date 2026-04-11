@@ -369,3 +369,31 @@ def register_bridge_tools(mcp: FastMCP) -> None:
             record_command(js_code)
             return "Command sent to PT."
         return "Error sending command to bridge."
+
+    @mcp.tool()
+    def pt_read_cli(device_name: str, command: str) -> str:
+        """
+        Execute a CLI command on a Packet Tracer device and return the output.
+        Useful for verifying configurations like `show ip interface brief`.
+
+        Parameters:
+        - device_name: exact device name (e.g. 'R1', 'ISP', 'S1')
+        - command: CLI command to execute (e.g. 'show ip interface brief')
+        """
+        err = check_bridge()
+        if err:
+            return err
+
+        safe_dev = js_escape(device_name)
+        safe_cmd = js_escape(command)
+        js = (
+            f'return ipc.appWindow().getActiveWorkspace()'
+            f'.getDevice("{safe_dev}").sendCommand("{safe_cmd}");'
+        )
+        result = bridge_send_and_wait(js, timeout=10.0)
+        if result is None:
+            return (
+                f"No response from PT (timeout). Verify device '{device_name}' exists "
+                "and the bootstrap is running."
+            )
+        return result
