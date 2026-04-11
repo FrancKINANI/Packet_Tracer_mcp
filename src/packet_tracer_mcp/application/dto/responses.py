@@ -1,7 +1,6 @@
 """DTOs de respuesta para la capa de aplicación."""
 
 from __future__ import annotations
-
 from dataclasses import dataclass, field
 
 

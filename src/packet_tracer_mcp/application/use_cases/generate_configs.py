@@ -1,7 +1,6 @@
 """Use case: generar configuraciones CLI."""
 
 from __future__ import annotations
-
 from ...domain.models.plans import TopologyPlan
 from ...infrastructure.generator.cli_config_generator import generate_all_configs
 

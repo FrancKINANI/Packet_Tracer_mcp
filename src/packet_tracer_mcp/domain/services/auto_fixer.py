@@ -8,12 +8,12 @@ Intenta corregir errores comunes automáticamente:
 """
 
 from __future__ import annotations
-
-from ...infrastructure.catalog.cables import infer_cable
-from ...infrastructure.catalog.devices import get_ports_by_speed, resolve_model
-from ...shared.enums import PortSpeed
 from ..models.plans import TopologyPlan
+from ..models.errors import ValidationResult, ErrorCode
 from .validator import validate_plan
+from ...infrastructure.catalog.devices import resolve_model, get_ports_by_speed
+from ...infrastructure.catalog.cables import infer_cable
+from ...shared.enums import PortSpeed
 
 
 def fix_plan(plan: TopologyPlan) -> tuple[TopologyPlan, list[str]]:

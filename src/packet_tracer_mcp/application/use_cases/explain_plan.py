@@ -1,7 +1,6 @@
 """Use case: explicar plan."""
 
 from __future__ import annotations
-
 from ...domain.models.plans import TopologyPlan
 from ...domain.services.explainer import explain_plan
 

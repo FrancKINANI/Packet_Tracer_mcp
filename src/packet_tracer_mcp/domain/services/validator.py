@@ -5,12 +5,11 @@ Usa las reglas de domain/rules/ con errores tipados.
 """
 
 from __future__ import annotations
-
-from ..models.errors import ValidationResult
 from ..models.plans import TopologyPlan
-from ..rules.cable_rules import validate_links
+from ..models.errors import ValidationResult
 from ..rules.device_rules import validate_devices
-from ..rules.ip_rules import validate_dhcp, validate_ips
+from ..rules.ip_rules import validate_ips, validate_dhcp
+from ..rules.cable_rules import validate_links
 
 
 def validate_plan(plan: TopologyPlan) -> ValidationResult:

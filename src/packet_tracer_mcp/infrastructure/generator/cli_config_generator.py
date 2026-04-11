@@ -6,10 +6,8 @@ pegar en la terminal de cada router/switch.
 """
 
 from __future__ import annotations
-
-from ...domain.models.plans import DevicePlan, TopologyPlan
+from ...domain.models.plans import TopologyPlan, DevicePlan
 from ...shared.utils import prefix_to_mask
-
 
 def generate_all_configs(plan: TopologyPlan) -> dict[str, str]:
     """
@@ -87,7 +85,7 @@ def _router_config(router: DevicePlan, plan: TopologyPlan) -> str:
     # --- RIP ---
     rip_cfgs = [r for r in plan.rip_configs if r.router == router.name]
     for rip in rip_cfgs:
-        lines.append("router rip")
+        lines.append(f"router rip")
         lines.append(f" version {rip.version}")
         for net in rip.networks:
             lines.append(f" network {net}")
