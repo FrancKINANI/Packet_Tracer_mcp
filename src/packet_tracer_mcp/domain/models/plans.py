@@ -16,6 +16,7 @@ class DevicePlan(BaseModel):
     y: int = 0
     interfaces: dict[str, str] = Field(default_factory=dict)
     gateway: str = ""
+    config_text: str = ""
 
 
 class LinkPlan(BaseModel):

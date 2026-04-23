@@ -23,6 +23,8 @@ def generate_all_configs(plan: TopologyPlan) -> dict[str, str]:
             cfg = _switch_config(dev, plan)
             if cfg.strip():
                 configs[dev.name] = cfg
+        elif dev.config_text.strip():
+            configs[dev.name] = dev.config_text.strip()
 
     return configs
 
@@ -105,6 +107,10 @@ def _router_config(router: DevicePlan, plan: TopologyPlan) -> str:
         lines.append(" exit")
         lines.append("")
 
+    if router.config_text.strip():
+        lines.append(router.config_text.strip())
+        lines.append("")
+
     lines.append("end")
     lines.append("write memory")
 
@@ -117,6 +123,10 @@ def _switch_config(switch: DevicePlan, plan: TopologyPlan) -> str:
     lines.append("enable")
     lines.append("configure terminal")
     lines.append(f"hostname {switch.name}")
+
+    if switch.config_text.strip():
+        lines.append(switch.config_text.strip())
+
     lines.append("end")
     lines.append("write memory")
     return "\n".join(lines)

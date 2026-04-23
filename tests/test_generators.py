@@ -110,3 +110,38 @@ class TestCLIConfigGenerator:
         configs = generate_all_configs(plan)
         assert "ip dhcp pool LAN1" in configs["R1"]
         assert "default-router 192.168.0.1" in configs["R1"]
+
+    def test_router_custom_config_is_appended(self):
+        plan = TopologyPlan(
+            name="test",
+            devices=[
+                DevicePlan(
+                    name="R1",
+                    model="2911",
+                    category="router",
+                    x=100,
+                    y=100,
+                    interfaces={"GigabitEthernet0/0": "192.168.0.1/24"},
+                    config_text="ip nat inside source list 10 interface GigabitEthernet0/0 overload",
+                ),
+            ],
+            links=[],
+        )
+        configs = generate_all_configs(plan)
+        assert "ip nat inside source list 10 interface GigabitEthernet0/0 overload" in configs["R1"]
+
+    def test_non_ios_device_with_config_text_exports(self):
+        plan = TopologyPlan(
+            name="test",
+            devices=[
+                DevicePlan(
+                    name="AP1",
+                    model="AccessPoint-PT",
+                    category="accesspoint",
+                    config_text="SSID: HOPITAL_SECURE",
+                ),
+            ],
+            links=[],
+        )
+        configs = generate_all_configs(plan)
+        assert configs["AP1"] == "SSID: HOPITAL_SECURE"
